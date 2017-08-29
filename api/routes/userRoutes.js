@@ -7,7 +7,7 @@ module.exports = function(app){
         .post(user.create_a_user);
 
     app.route('/users/:userId')
-        .put(user.update_a_user)
-        .get(user.view_a_user)
+        .get(user.view_a_user)    
+        .put(user.update_a_user)        
         .delete(user.delete_a_user);
 }
