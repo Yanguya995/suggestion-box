@@ -16,8 +16,8 @@ mongoose.connect('mongodb://localhost/suggestionBoxDB',{useMongoClient:true});
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//var userRoutes = require('./api/routes/userRoutes'); //importing route
-//userRoutes(app); //register the route
+var userRoutes = require('./api/routes/userRoutes'); //importing route
+userRoutes(app); //register the route
 
 var chatRouter = require('./api/routes/chatRoutes');
 chatRouter(app);
