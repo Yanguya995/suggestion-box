@@ -1,9 +1,5 @@
 # use a node base image
-<<<<<<< HEAD
-FROM node:6-onbuild
-=======
 FROM node:7-onbuild
->>>>>>> 0d2a99691ec96b09030ad897f4800ba36da72d25
 
 # set maintainer
 LABEL maintainer "njabulo.thwala@gmail.com"
