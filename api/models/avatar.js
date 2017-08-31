@@ -1,5 +1,5 @@
-var mongoose = require('mongoose'),
-    user = require('./user');
+var mongoose = require('mongoose')
+    //user = require('./user');
 
 var AvatarSchema = new mongoose.Schema({
     name: {
@@ -7,7 +7,7 @@ var AvatarSchema = new mongoose.Schema({
     },
     user: {
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'Users'
     }
 });
 

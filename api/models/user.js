@@ -15,8 +15,11 @@ var UserSchema = new mongoose.Schema({
     },
     email: {
         type:String
-    },
-
+    },    
+    avatar: [{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Avatars'
+    }]
 });
 
 var User = mongoose.model('Users', UserSchema);
