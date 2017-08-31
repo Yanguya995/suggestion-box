@@ -1,9 +1,25 @@
-var express = require('express');
-var server = express();
-var port = 3000;
+var env = process.env.NODE_ENV || 'development';
+var config = require('../env/config')[env];  
+var express = require('express'),
+    port = process.env.PORT || 3000,
+    User = require('../api/models/user'), //created model loading here
+    Chat = require('../api/models/chat'),
+    Avatar = require('../api/models/avatar'),
+    bodyParser = require('body-parser');
 
-server.get('/', function(request,response){
-   response.send('App Works')
-}).listen(port,()=>{
-    console.log("Application is running on Port "+ port);
-});
+var app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+var userRoutes = require('../api/routes/userRoutes'); //importing route
+userRoutes(app); //register the route
+
+var chatRouter = require('../api/routes/chatRoutes');
+chatRouter(app);
+
+var avatarRouter =require('../api/routes/avatarRoutes');
+avatarRouter(app);
+
+app.listen(port);
+console.log('todo list RESTful API server started on: ' + port);
