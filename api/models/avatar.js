@@ -1,9 +1,15 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    user = require('./user');
 
 var AvatarSchema = new mongoose.Schema({
-    name: String,
-    user: {type:mongoose.Schema.Types.ObjectId,ref:'User'},
-});
+    name: {
+        type:String
+    },
+    user: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }
+},{useMongoClient:true});
 
-var Avatar = mongoose.model('Avatar',AvatarSchema);
+var Avatar = mongoose.model('Avatars',AvatarSchema);
 module.exports = Avatar;

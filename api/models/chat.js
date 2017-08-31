@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-var post = require('./post')
+var post = require('./post');
+
 var ChatSchema = new mongoose.Schema({
     title: {
         type: String,
