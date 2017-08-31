@@ -10,10 +10,10 @@ var ChatSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    post: {
+    post: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:'post'
-    }    
+    }]    
 });
 var Chat = mongoose.model('Chats',ChatSchema);
 module.exports = Chat;

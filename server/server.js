@@ -5,6 +5,7 @@ var express = require('express'),
     User = require('../api/models/user'), //created model loading here
     Chat = require('../api/models/chat'),
     Avatar = require('../api/models/avatar'),
+    Post = require('../api/models/post');
     bodyParser = require('body-parser');
 
 var app = express();
@@ -18,8 +19,11 @@ userRoutes(app); //register the route
 var chatRouter = require('../api/routes/chatRoutes');
 chatRouter(app);
 
-var avatarRouter =require('../api/routes/avatarRoutes');
+var avatarRouter = require('../api/routes/avatarRoutes');
 avatarRouter(app);
+
+var postRouter = require('../api/routes/postRoutes');
+postRouter(app);
 
 app.listen(port);
 console.log('todo list RESTful API server started on: ' + port);
