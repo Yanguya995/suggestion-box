@@ -9,7 +9,7 @@ var AvatarSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     }
-},{useMongoClient:true});
+});
 
 var Avatar = mongoose.model('Avatars',AvatarSchema);
 module.exports = Avatar;

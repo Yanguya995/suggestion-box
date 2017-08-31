@@ -6,6 +6,6 @@ var PostSchema = mongoose.Schema({
     likes: Number,
     tags: [String],
 
-},{useMongoClient:true});
+});
 var Post  = mongoose.model('Posts',PostSchema);
 module.exports = Post;
