@@ -8,7 +8,15 @@ var AvatarSchema = new mongoose.Schema({
     user: {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Users'
-    }
+    },
+    chat:[{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'Chat'
+    }],
+    post:[{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'Posts'
+    }]
 });
 
 var Avatar = mongoose.model('Avatars',AvatarSchema);

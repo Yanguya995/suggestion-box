@@ -13,6 +13,14 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+var loginRouter = require('../api/routes/loginRoutes');
+loginRouter(app);
+
+app.listen(port);
+console.log('todo list RESTful API server started on: ' + port);
+
+//..............These should be protected by jwt...............
+
 var userRoutes = require('../api/routes/userRoutes'); //importing route
 userRoutes(app); //register the route
 
@@ -24,6 +32,3 @@ avatarRouter(app);
 
 var postRouter = require('../api/routes/postRoutes');
 postRouter(app);
-
-app.listen(port);
-console.log('todo list RESTful API server started on: ' + port);

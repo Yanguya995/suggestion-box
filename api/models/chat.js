@@ -13,7 +13,11 @@ var ChatSchema = new mongoose.Schema({
     post: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:'post'
-    }]    
+    }], 
+    owner : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref :'avatar'
+    }
 });
 var Chat = mongoose.model('Chats',ChatSchema);
 module.exports = Chat;
