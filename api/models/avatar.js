@@ -1,5 +1,4 @@
 var mongoose = require('mongoose')
-    //user = require('./user');
 
 var AvatarSchema = new mongoose.Schema({
     name: {
@@ -11,7 +10,7 @@ var AvatarSchema = new mongoose.Schema({
     },
     chat:[{
         type : mongoose.Schema.Types.ObjectId,
-        ref: 'Chat'
+        ref: 'Chats'
     }],
     post:[{
         type : mongoose.Schema.Types.ObjectId,

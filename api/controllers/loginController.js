@@ -26,10 +26,12 @@ exports.authenticate = function (req, res) {
                         });
                     } else {
                         var token = jwt.sign({
-                                username: user.username
+                                username: user.username,
+                                email: user.email,
+                                id: user._id
                             },
                             secret, {
-                                expiresIn: '1h'
+                                expiresIn: '24h'
                             });
                         res.json({
                             message: 'User Authenticated successfully',
@@ -50,3 +52,12 @@ exports.authenticate = function (req, res) {
         }
     }
 }
+
+exports.isLoggedIn = function(req, resp, next){
+    if(req.body.token){
+        next();
+    
+    } else {
+        return res.json({message: 'Unathorized user'});
+    }
+}; 

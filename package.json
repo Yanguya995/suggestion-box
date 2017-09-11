@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Yanguya995/suggestion-box#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
     "express": "^4.15.4",
     "hoek": "^4.2.0",
     "jsonwebtoken": "^7.4.3",
