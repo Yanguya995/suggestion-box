@@ -7,11 +7,24 @@ var express = require('express'),
     Avatar = require('../api/models/avatar'),
     Post = require('../api/models/post');
     bodyParser = require('body-parser');
+    cors = require('cors');
 
 var app = express();
 
+app.use(cors(/* set whitlists and blacklists */));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+
+//Middleware that determines if a user should be granted access or not
+//This is where we will be checking if the token provided is valid or not
+app.use(function(req, res, next){
+    if(req.body.username){
+        next();
+    }else{
+        res.json({message: 'There is nothing in Body'})
+    }
+});
 
 var loginRouter = require('../api/routes/loginRoutes');
 loginRouter(app);

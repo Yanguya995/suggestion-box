@@ -17,7 +17,10 @@ var config = {
         server: {
             host: '127.0.0.1',
             port: '3000'
-        }
+        },
+
+        secret: '123Secret?456?anothersecret??**how_Have_=_uBeen_BoBBo..<<>>:""QWE nm.,nmdgdfgdfgd'
+
     }
     };
     module.exports = config;
