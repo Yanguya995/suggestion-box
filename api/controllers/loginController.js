@@ -1,8 +1,27 @@
+var env = process.env.NODE_ENV || 'development';
+var config = require('../../env/config')[env];
 var mongoose = require('mongoose'),
-    User = mongoose.model('Users'),
-    jwt = require('jsonwebtoken');
+    User = mongoose.model('Users'),   
+    jwt = require('jsonwebtoken'),
+    secret = "kjsdhfjskdhfjskhfue2122232425262728292010fhks2122232425262728292010djfh2122232425262728292010k2122232425262728292010sdjf";
+    passport = require('passport'),
+    passportJWT = require('passport-jwt'),
+    extractJWT = passportJWT.ExtractJwt,
+    jwtStrategy = passportJWT.Strategy,    
+    User = require('../../api/models/user'),    
+    jwtOptions = {
+        jwtFromRequest: extractJWT.fromHeader('authorization'),
+        secretOrKey :'kjsdhfjskdhfjskhfuefhksdjfhksdjf'
+    };
     
-secret = "2122232425262728292010";
+    var strategy = new jwtStrategy(jwtOptions, function(jwt_payload, next){
+    console.log('Payload received', jwt_payload);
+    
+    var user = users[_.findIndex(users, {id:jwt_payload.id})];
+        if(user){ next(null, user)}
+        else{ next,(null, false);
+        }
+    });
 
 exports.authenticate = function (req, res) {
     User.findOne({
@@ -24,13 +43,18 @@ exports.authenticate = function (req, res) {
                         res.json({
                             message: 'Please provide valid credentials'
                         });
-                    } else {
+                    } else if(isValid) {
+                        var payload = {id : user.id}
+                        var token = jwt.sign(payload, jwtOptions.secretOrKey);
+                        res.json({message:'Ok', token: token});}
+                        else{ res.status(401).json({message: ' Passwords did not match',});}
+
                         var token = jwt.sign({
-                                username: user.username,
+                                id: user._id,
                                 email: user.email,
-                                id: user._id
+                                provider: 'suggestion-box'
                             },
-                            secret, {
+                            config.secret, {
                                 expiresIn: '24h'
                             });
                         res.json({
@@ -40,8 +64,8 @@ exports.authenticate = function (req, res) {
                     }
                 }
 
-            }
-        });
+            });
+    }
 
     function compareToUserPassword(userPassword, bodyPassword) {
         //write password hashing algorithm..... 
@@ -51,13 +75,21 @@ exports.authenticate = function (req, res) {
             return false;
         }
     }
-}
 
-exports.isLoggedIn = function(req, resp, next){
+exports.verfication = function(req, res, next){
+    console.log('is Logged in ?')
     if(req.body.token){
-        next();
+        jwt.verify(token, secret, function(err, decoded){            
+            if(err) 
+                return handleError(err);
+            else{
+                req.decoded = decoded;
+                next();
+            }        
+        });        
+        
     
     } else {
         return res.json({message: 'Unathorized user'});
     }
-}; 
+}

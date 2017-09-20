@@ -1,5 +1,5 @@
 'use strict'
-module.exports = function(app){
+module.exports = function(app, data){
     var post = require('../controllers/postController');
 
     app.route('/posts')

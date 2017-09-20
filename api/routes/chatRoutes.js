@@ -1,6 +1,7 @@
 'use scrict'
-module.exports = function(app){
+module.exports = function(app, data){
     var chat  = require('../controllers/chatController');
+        login = require('../controllers/loginController');
 
     app.route('/chats')
         .get(chat.list_all_chats)
