@@ -3,15 +3,15 @@ var config = require('../../env/config')[env];
 var mongoose = require('mongoose'),
     User = mongoose.model('Users'),   
     jwt = require('jsonwebtoken'),
-    secret = "kjsdhfjskdhfjskhfue2122232425262728292010fhks2122232425262728292010djfh2122232425262728292010k2122232425262728292010sdjf";
     passport = require('passport'),
     passportJWT = require('passport-jwt'),
     extractJWT = passportJWT.ExtractJwt,
     jwtStrategy = passportJWT.Strategy,    
     User = require('../../api/models/user'),    
+
     jwtOptions = {
         jwtFromRequest: extractJWT.fromHeader('authorization'),
-        secretOrKey :'kjsdhfjskdhfjskhfuefhksdjfhksdjf'
+        secretOrKey :config.secret
     };
     
     var strategy = new jwtStrategy(jwtOptions, function(jwt_payload, next){
@@ -46,21 +46,10 @@ exports.authenticate = function (req, res) {
                     } else if(isValid) {
                         var payload = {id : user.id}
                         var token = jwt.sign(payload, jwtOptions.secretOrKey);
-                        res.json({message:'Ok', token: token});}
-                        else{ res.status(401).json({message: ' Passwords did not match',});}
-
-                        var token = jwt.sign({
-                                id: user._id,
-                                email: user.email,
-                                provider: 'suggestion-box'
-                            },
-                            config.secret, {
-                                expiresIn: '24h'
-                            });
-                        res.json({
-                            message: 'User Authenticated successfully',
-                            token: token
-                        });
+                        res.json({message:'Ok', token: token});
+                    } else { 
+                        res.status(401).json({message: ' Passwords did not match',});
+                    }
                     }
                 }
 

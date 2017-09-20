@@ -2,7 +2,7 @@ var config = {
     development: {
         //Development database url
         dburl: 'mongodb://localhost/suggestionBoxDB',
-        
+        secret :'kjsdhfjskdhfjskhfuefhksdjfhksdjfkjsdhfjskdhfjskhfue2122232425262728292010fhks2122232425262728292010djfh2122232425262728292010k2122232425262728292010sdjf',
         //server details
         server: {
             host: '127.0.0.1',
