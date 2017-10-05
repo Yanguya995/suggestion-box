@@ -15,14 +15,7 @@ exports.view_a_user = function(req,res){
         res.json(user);
     })
 }
-exports.create_a_user = function(req,res){
-    var new_user = new User(req.body);
-    new_user.save(function(err,user){
-        if(err)
-            res.send(err)
-        res.json(user);
-    })
-}
+
 exports.update_a_user = function(req,res){
     User.findOneAndUpdate({_id: req.params.userId},req.body,{new:true},function(err,user){
         if(err)

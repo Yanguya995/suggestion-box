@@ -3,15 +3,17 @@ var UserSchema = new mongoose.Schema({
     name: {
         type:String
     },
-    username: { 
-        type: String, 
-        unique: true 
-    },
     password: {
+        type:String
+    },
+    occupation: {
         type:String
     },
     date_of_birth: {
         type:Date
+    },
+    gender:{
+        type:String
     },
     email: {
         type:String

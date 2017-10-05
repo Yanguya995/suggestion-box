@@ -4,6 +4,6 @@ var login = require('../controllers/loginController');
     app.route('/login')
     .post(login.authenticate);
     
-    app.route('/login/v')
-    .post(login.verfication);
+    app.route('/login/reg')
+    .post(login.create_a_user);
 }
