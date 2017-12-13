@@ -25,6 +25,7 @@
     "hoek": "^4.2.0",
     "jsonwebtoken": "^7.4.3",
     "mongoose": "^4.11.9",
+    "mongoose-deep-populate": "^3.0.0",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.0"
   }

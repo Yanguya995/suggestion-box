@@ -21,7 +21,11 @@ var UserSchema = new mongoose.Schema({
     avatar: [{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Avatars'
-    }]
+    }],
+    createdDate: {
+        type: Date, 
+        default: Date.now
+    }
 });
 
 var User = mongoose.model('Users', UserSchema);

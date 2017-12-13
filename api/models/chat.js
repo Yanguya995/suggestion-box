@@ -12,11 +12,15 @@ var ChatSchema = new mongoose.Schema({
     },
     post: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'post'
+        ref:'Posts'
     }], 
     owner : {
         type: mongoose.Schema.Types.ObjectId,
-        ref :'avatar'
+        ref :'Avatars'
+    },
+    createdDate: {
+        type: Date, 
+        default: Date.now
     }
 });
 var Chat = mongoose.model('Chats',ChatSchema);

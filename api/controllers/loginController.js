@@ -83,6 +83,6 @@ exports.create_a_user = function(req,res){
     new_user.save(function(err,user){
         if(err)
             res.send(err)
-        res.json(user);
+        res.json({success: true, message: 'user has been created'});
     })
 }

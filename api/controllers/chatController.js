@@ -1,22 +1,40 @@
-var mongoose = require('mongoose'),
-    Chat = mongoose.model('Chats');
-Avatar = mongoose.model('Avatars');
+var mongoose = require('mongoose');
+var Chat = mongoose.model('Chats');
 
 exports.list_all_chats = function (req, res) {
-    Chat.find({}, function (err, chat) {
-        if (err)
-            res.send(err)
-        res.json(chat);
-    })
+    Chat.find()
+        .populate({ path: 'owner', model: 'Avatars' })
+        .populate({
+            path: 'post',
+            model: 'Posts',
+            populate: {
+                path: 'avatar',
+                model: 'Avatars'
+            }
+        })
+        .exec((err, chat) => {
+            if (err) res.send(err);
+            else {
+                res.json(chat)
+            }
+        })
 }
 exports.view_a_chat = function (req, res) {
-    chat.findById({
-        _id: req.params.chatId
-    }, function (err, chat) {
-        if (err)
-            res.send(err)
-        res.json(chat);
-    })
+    Chat.findById({ _id: req.params.chatId })
+        .populate({ path: 'owner', model: 'Avatars' })
+        .populate({
+            path: 'post', model: 'Posts',
+            populate: {
+                path: 'avatar',
+                model: 'Avatars'
+            }
+        })
+        .exec((err, chat) => {
+            if (err) res.send(err);
+            else {
+                res.json(chat)
+            }
+        })
 }
 exports.create_a_chat = function (req, res) {
     var new_chat = new Chat(req.body);
@@ -24,34 +42,7 @@ exports.create_a_chat = function (req, res) {
         if (err)
             res.send(err)
         else {
-            var populate = Chat.findOne({
-                    _id: new_chat._id
-                })
-                .populate('Avatars')
-                .exec(function (err) {
-                    if (err) return handleError(err)
-                    else {
-                        var populateAvatar = Avatar.findOne({
-                                _id: new_chat.owner
-                            },
-                            function (err, avatar) {
-                                if (err)
-                                    return handleError(err)
-                                else if (avatar !== null) {
-                                    avatar.chat.push(new_chat);
-                                    avatar.save(function (err) {
-                                        if (err)
-                                            return handleError(err)
-                                        res.json({
-                                            message: 'Chat created',
-                                            status: 'Success'
-                                        })
-                                    })
-                                }
-
-                            });
-                    }
-                });
+            res.json(new_chat);
         }
     });
 }

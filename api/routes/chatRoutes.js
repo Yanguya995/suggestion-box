@@ -1,11 +1,14 @@
 'use scrict'
 module.exports = function(app, data){
-    var chat  = require('../controllers/chatController');
+    var mongoose = require('mongoose');
+    console.log(mongoose.connection.readyState);
+    
+    var chat  = require('../controllers/chatController'),
         login = require('../controllers/loginController');
 
     app.route('/chats')
-        .get(chat.list_all_chats)
-        .post(chat.create_a_chat);    
+    .get(chat.list_all_chats)
+    .post(chat.create_a_chat);    
 
     app.route('/chats/:chatId')
         .get(chat.view_a_chat)

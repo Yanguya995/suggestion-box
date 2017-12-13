@@ -1,47 +1,65 @@
+require('../api/models/user');
+require('../api/models/avatar');
+require('../api/models/chat');
+require('../api/models/post');
+
+var mongoose = require('mongoose');
+console.log(mongoose.connection.readyState);
 var env = process.env.NODE_ENV || 'development';
-var config = require('../env/config')[env];  
+var config = require('../env/config')[env];
 var express = require('express'),
     port = process.env.PORT || 3000,
-    User = require('../api/models/user'), //created model loading here
-    Chat = require('../api/models/chat'),
-    Avatar = require('../api/models/avatar'),
-    Post = require('../api/models/post');
-    bodyParser = require('body-parser');
-    cors = require('cors');
+    jwt = require('jsonwebtoken'),
+    bodyParser = require('body-parser'),
+    cors = require('cors'),
+    loginController = require('../api/controllers/loginController'),
+    passport = require('passport'),
+    passportJWT = require('passport-jwt'),
+    extractJWT = passportJWT.ExtractJwt,
+    jwtStrategy = passportJWT.Strategy,
+    User = require('../api/models/user'),
+    jwtOptions = {
+        jwtFromRequest: extractJWT.fromHeader('authorization'),
+        secretOrKey: config.secret
+    };
+
+var chatRouter = require('../api/routes/chatRoutes');
+var avatarRouter = require('../api/routes/avatarRoutes');
+var userRoutes = require('../api/routes/userRoutes'); //importing route
+var loginRouter = require('../api/routes/loginRoutes');
+var postRouter = require('../api/routes/postRoutes');
 
 var app = express();
+//Passport Authentication strategy
+var strategy = new jwtStrategy(jwtOptions, function (jwt_payload, next) {
+    console.log('Payload received', jwt_payload);
+    var currentUser = User.findById(jwt_payload.id, function (err, user) {
+        if (user) { next(null, user) }
+        else {
+            next, (null, false);
+        }
+    });
+});
 
 app.use(cors(/* set whitlists and blacklists */));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+passport.use(strategy);
+app.use(passport.initialize());
 
-
+function isLoggedIn() {
+    app.use(passport.authenticate('jwt', { session: false }), function (req, res, next) {
+        next();
+    });
+}
+console.log(mongoose.connection.readyState);
 //Middleware that determines if a user should be granted access or not
 //This is where we will be checking if the token provided is valid or not
-app.use(function(req, res, next){
-    if(req.body.username){
-        next();
-    }else{
-        res.json({message: 'There is nothing in Body'})
-    }
-});
-
-var loginRouter = require('../api/routes/loginRoutes');
-loginRouter(app);
-
 app.listen(port);
 console.log('todo list RESTful API server started on: ' + port);
-
 //..............These should be protected by jwt...............
-
-var userRoutes = require('../api/routes/userRoutes'); //importing route
-userRoutes(app); //register the route
-
-var chatRouter = require('../api/routes/chatRoutes');
-chatRouter(app);
-
-var avatarRouter = require('../api/routes/avatarRoutes');
-avatarRouter(app);
-
-var postRouter = require('../api/routes/postRoutes');
-postRouter(app);
+loginRouter(app);
+userRoutes(app, isLoggedIn()); //register the route
+avatarRouter(app, isLoggedIn());
+postRouter(app, isLoggedIn());
+chatRouter(app, isLoggedIn());

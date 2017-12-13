@@ -1,9 +1,9 @@
-var mongoose = require('mongoose'),
-    Avatar = mongoose.model('Avatars');
-User = mongoose.model('Users');
+var mongoose = require('mongoose');
+var Avatar = mongoose.model('Avatars');
+var User = mongoose.model('Users');
 
-exports.list_all_avatars = function (req, res) {
-    Avatar.find({}, function (err, avatar) {
+exports.list_user_avatars = function (req, res) {
+    Avatar.find({user: req.params.userId}, function (err, avatar) {
         if (err)
             res.send(err)
         res.json(avatar);
@@ -36,7 +36,7 @@ exports.create_an_avatar = function (req, res) {
                         var populateUser = User.findById({
                             _id: req.body.user
                         }, function (err, user) {
-                            if (err) return handleError(err)
+                            if (err) console.log(err)
                             user.avatar.push(new_avatar);
                             user.save(function (err) {
                                 if (err)
